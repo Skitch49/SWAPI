@@ -1,0 +1,161 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: API Star Wars Alexis
+  description: API pour gérer les films
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+paths:
+  /film:
+    get:
+      summary: Récupère tous les films
+      responses:
+        200:
+          description: Succès. Renvoie la liste des films.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Film"
+        500:
+          description: Erreur interne du serveur. Échec de la récupération des films.
+
+    post:
+      summary: Crée un nouveau film
+      parameters:
+        - name: filmData
+          in: body
+          required: true
+          description: Données du film à créer
+          schema:
+            $ref: "#/definitions/FilmInput"
+      responses:
+        201:
+          description: Succès. Renvoie les informations du film créé.
+          schema:
+            $ref: "#/definitions/Film"
+        500:
+          description: Erreur interne du serveur. Échec de la création du film.
+
+  /film/{id}:
+    get:
+      summary: Récupère les informations d'un film par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du film à récupérer
+          type: string
+      responses:
+        200:
+          description: Succès. Renvoie les informations du film demandé.
+          schema:
+            $ref: "#/definitions/Film"
+        404:
+          description: Film non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la récupération du film.
+
+    put:
+      summary: Met à jour les informations d'un film par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du film à mettre à jour
+          type: string
+        - name: filmData
+          in: body
+          required: true
+          description: Nouvelles données du film
+          schema:
+            $ref: "#/definitions/FilmInput"
+      responses:
+        200:
+          description: Succès. Renvoie les informations du film mis à jour.
+          schema:
+            $ref: "#/definitions/Film"
+        404:
+          description: Film non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la mise à jour du film.
+
+    delete:
+      summary: Supprime un film par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du film à supprimer
+          type: string
+      responses:
+        204:
+          description: Succès. Aucune donnée renvoyée.
+        404:
+          description: Film non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la suppression du film.
+
+definitions:
+  Film:
+    type: object
+    properties:
+      _id:
+        type: string
+      fields:
+        $ref: "#/definitions/FilmFields"
+      model:
+        type: string
+      pk:
+        type: number
+
+  FilmFields:
+    type: object
+    properties:
+      starships:
+        type: array
+        items:
+          type: number
+      edited:
+        type: string
+      vehicles:
+        type: array
+        items:
+          type: number
+      planets:
+        type: array
+        items:
+          type: number
+      producer:
+        type: string
+      title:
+        type: string
+      created:
+        type: string
+      episode_id:
+        type: number
+      director:
+        type: string
+      release_date:
+        type: string
+      opening_crawl:
+        type: string
+      characters:
+        type: array
+        items:
+          type: number
+      species:
+        type: array
+        items:
+          type: number
+
+  FilmInput:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/FilmFields"
+      model:
+        type: string
+      pk:
+        type: number

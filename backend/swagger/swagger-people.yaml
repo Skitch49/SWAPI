@@ -1,0 +1,134 @@
+definitions:
+ 
+  /people:
+    get:
+      summary: Récupère tous les peoples
+      responses:
+        200:
+          description: Succès - Renvoie la liste des peoples
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/People'
+        500:
+          description: Erreur serveur - Échec de la récupération des peoples
+    post:
+      summary: Crée un nouveau people
+      parameters:
+        - name: peopleData
+          in: body
+          description: Données du people à créer
+          required: true
+          schema:
+            $ref: '#/definitions/People'
+      responses:
+        201:
+          description: Succès - Renvoie les informations du people créé
+          schema:
+            $ref: '#/definitions/People'
+        500:
+          description: Erreur serveur - Échec de la création du people
+
+  /people/{id}:
+    get:
+      summary: Récupère les informations d'un people par son ID
+      parameters:
+        - name: id
+          in: path
+          description: ID du people à récupérer
+          required: true
+          type: string
+      responses:
+        200:
+          description: Succès - Renvoie les informations du people
+          schema:
+            $ref: '#/definitions/People'
+        404:
+          description: Non trouvé - Le people avec l'ID spécifié n'existe pas
+        500:
+          description: Erreur serveur - Échec de la récupération du people
+    put:
+      summary: Met à jour les informations d'un people par son ID
+      parameters:
+        - name: id
+          in: path
+          description: ID du people à mettre à jour
+          required: true
+          type: string
+        - name: peopleData
+          in: body
+          description: Nouvelles données du people
+          required: true
+          schema:
+            $ref: '#/definitions/People'
+      responses:
+        200:
+          description: Succès - Renvoie les informations du people mis à jour
+          schema:
+            $ref: '#/definitions/People'
+        404:
+          description: Non trouvé - Le people avec l'ID spécifié n'existe pas
+        500:
+          description: Erreur serveur - Échec de la mise à jour du people
+    delete:
+      summary: Supprime un people par son ID
+      parameters:
+        - name: id
+          in: path
+          description: ID du people à supprimer
+          required: true
+          type: string
+      responses:
+        204:
+          description: Succès - People supprimé avec succès
+        404:
+          description: Non trouvé - Le people avec l'ID spécifié n'existe pas
+        500:
+          description: Erreur serveur - Échec de la suppression du people
+
+definitions:
+  People:
+    type: object
+    properties:
+      fields:
+        type: object
+        properties:
+          edited:
+            type: string
+            required: true
+          name:
+            type: string
+            required: true
+          created:
+            type: string
+            required: true
+          gender:
+            type: string
+            required: true
+          skin_color:
+            type: string
+            required: true
+          hair_color:
+            type: string
+            required: true
+          height:
+            type: string
+            required: true
+          eye_color:
+            type: string
+            required: true
+          mass:
+            type: string
+            required: true
+          homeworld:
+            type: number
+            required: true
+          birth_year:
+            type: string
+            required: true
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true

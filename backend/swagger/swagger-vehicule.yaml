@@ -1,0 +1,141 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: API Star Wars Véhicule
+  description: API pour gérer les véhicules
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+paths:
+  /vehicule:
+    get:
+      summary: Récupère tous les véhicules
+      responses:
+        200:
+          description: Succès. Renvoie la liste des véhicules.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Vehicule"
+        500:
+          description: Erreur interne du serveur. Échec de la récupération des véhicules.
+
+    post:
+      summary: Crée un nouveau véhicule
+      parameters:
+        - name: vehiculeData
+          in: body
+          required: true
+          description: Données du véhicule à créer
+          schema:
+            $ref: "#/definitions/VehiculeInput"
+      responses:
+        201:
+          description: Succès. Renvoie les informations du véhicule créé.
+          schema:
+            $ref: "#/definitions/Vehicule"
+        500:
+          description: Erreur interne du serveur. Échec de la création du véhicule.
+
+  /vehicule/{id}:
+    get:
+      summary: Récupère les informations d'un véhicule par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du véhicule à récupérer
+          type: string
+      responses:
+        200:
+          description: Succès. Renvoie les informations du véhicule demandé.
+          schema:
+            $ref: "#/definitions/Vehicule"
+        404:
+          description: Véhicule non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la récupération du véhicule.
+
+    put:
+      summary: Met à jour les informations d'un véhicule par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du véhicule à mettre à jour
+          type: string
+        - name: vehiculeData
+          in: body
+          required: true
+          description: Nouvelles données du véhicule
+          schema:
+            $ref: "#/definitions/VehiculeInput"
+      responses:
+        200:
+          description: Succès. Renvoie les informations du véhicule mis à jour.
+          schema:
+            $ref: "#/definitions/Vehicule"
+        404:
+          description: Véhicule non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la mise à jour du véhicule.
+
+    delete:
+      summary: Supprime un véhicule par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du véhicule à supprimer
+          type: string
+      responses:
+        204:
+          description: Succès. Aucune donnée renvoyée.
+        404:
+          description: Véhicule non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la suppression du véhicule.
+
+definitions:
+  Vehicule:
+    type: object
+    properties:
+      fields:
+        type: object
+        properties:
+          vehicle_class:
+            type: string
+            required: true
+          pilots:
+            type: array
+            items:
+              type: number
+            required: true
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true
+
+  VehiculeInput:
+    type: object
+    properties:
+      fields:
+        type: object
+        properties:
+          vehicle_class:
+            type: string
+            required: true
+          pilots:
+            type: array
+            items:
+              type: number
+            required: true
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true

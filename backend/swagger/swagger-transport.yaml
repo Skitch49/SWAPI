@@ -1,0 +1,163 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: API Star Wars Transport
+  description: API pour gérer les transports
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+paths:
+  /transport:
+    get:
+      summary: Récupère tous les transports
+      responses:
+        200:
+          description: Succès. Renvoie la liste des transports.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Transport"
+        500:
+          description: Erreur interne du serveur. Échec de la récupération des transports.
+
+    post:
+      summary: Crée un nouveau transport
+      parameters:
+        - name: transportData
+          in: body
+          required: true
+          description: Données du transport à créer
+          schema:
+            $ref: "#/definitions/TransportInput"
+      responses:
+        201:
+          description: Succès. Renvoie les informations du transport créé.
+          schema:
+            $ref: "#/definitions/Transport"
+        500:
+          description: Erreur interne du serveur. Échec de la création du transport.
+
+  /transport/{id}:
+    get:
+      summary: Récupère les informations d'un transport par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du transport à récupérer
+          type: string
+      responses:
+        200:
+          description: Succès. Renvoie les informations du transport demandé.
+          schema:
+            $ref: "#/definitions/Transport"
+        404:
+          description: Transport non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la récupération du transport.
+
+    put:
+      summary: Met à jour les informations d'un transport par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du transport à mettre à jour
+          type: string
+        - name: transportData
+          in: body
+          required: true
+          description: Nouvelles données du transport
+          schema:
+            $ref: "#/definitions/TransportInput"
+      responses:
+        200:
+          description: Succès. Renvoie les informations du transport mis à jour.
+          schema:
+            $ref: "#/definitions/Transport"
+        404:
+          description: Transport non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la mise à jour du transport.
+
+    delete:
+      summary: Supprime un transport par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du transport à supprimer
+          type: string
+      responses:
+        204:
+          description: Succès. Aucune donnée renvoyée.
+        404:
+          description: Transport non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la suppression du transport.
+
+definitions:
+  Transport:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/TransportFields"
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true
+
+  TransportFields:
+    type: object
+    properties:
+      edited:
+        type: string
+        required: true
+      consumables:
+        type: string
+        required: true
+      name:
+        type: string
+        required: true
+      created:
+        type: string
+        required: true
+      cargo_capacity:
+        type: string
+        required: true
+      passengers:
+        type: string
+        required: true
+      max_atmosphering_speed:
+        type: string
+        required: true
+      crew:
+        type: string
+        required: true
+      length:
+        type: string
+        required: true
+      model:
+        type: string
+        required: true
+      cost_in_credits:
+        type: string
+        required: true
+      manufacturer:
+        type: string
+        required: true
+
+  TransportInput:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/TransportFields"
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true

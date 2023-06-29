@@ -1,0 +1,141 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: API Star Wars Starship
+  description: API pour gérer les vaisseaux spatiaux
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+paths:
+  /starship:
+    get:
+      summary: Récupère tous les vaisseaux spatiaux
+      responses:
+        200:
+          description: Succès. Renvoie la liste des vaisseaux spatiaux.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Starship"
+        500:
+          description: Erreur interne du serveur. Échec de la récupération des vaisseaux spatiaux.
+
+    post:
+      summary: Crée un nouveau vaisseau spatial
+      parameters:
+        - name: starshipData
+          in: body
+          required: true
+          description: Données du vaisseau spatial à créer
+          schema:
+            $ref: "#/definitions/StarshipInput"
+      responses:
+        201:
+          description: Succès. Renvoie les informations du vaisseau spatial créé.
+          schema:
+            $ref: "#/definitions/Starship"
+        500:
+          description: Erreur interne du serveur. Échec de la création du vaisseau spatial.
+
+  /starship/{id}:
+    get:
+      summary: Récupère les informations d'un vaisseau spatial par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du vaisseau spatial à récupérer
+          type: string
+      responses:
+        200:
+          description: Succès. Renvoie les informations du vaisseau spatial demandé.
+          schema:
+            $ref: "#/definitions/Starship"
+        404:
+          description: Vaisseau spatial non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la récupération du vaisseau spatial.
+
+    put:
+      summary: Met à jour les informations d'un vaisseau spatial par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du vaisseau spatial à mettre à jour
+          type: string
+        - name: starshipData
+          in: body
+          required: true
+          description: Nouvelles données du vaisseau spatial
+          schema:
+            $ref: "#/definitions/StarshipInput"
+      responses:
+        200:
+          description: Succès. Renvoie les informations du vaisseau spatial mis à jour.
+          schema:
+            $ref: "#/definitions/Starship"
+        404:
+          description: Vaisseau spatial non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la mise à jour du vaisseau spatial.
+
+    delete:
+      summary: Supprime un vaisseau spatial par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID du vaisseau spatial à supprimer
+          type: string
+      responses:
+        204:
+          description: Succès. Aucune donnée renvoyée.
+        404:
+          description: Vaisseau spatial non trouvé.
+        500:
+          description: Erreur interne du serveur. Échec de la suppression du vaisseau spatial.
+
+definitions:
+  Starship:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/StarshipFields"
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true
+
+  StarshipFields:
+    type: object
+    properties:
+      pilots:
+        type: array
+        items:
+          type: number
+        required: true
+      MGLT:
+        type: string
+        required: true
+      starship_class:
+        type: string
+        required: true
+      hyperdrive_rating:
+        type: string
+        required: true
+
+  StarshipInput:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/StarshipFields"
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true
