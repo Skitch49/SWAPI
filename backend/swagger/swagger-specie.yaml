@@ -1,0 +1,168 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: API Star Wars Specie
+  description: API pour gérer les espèces
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+paths:
+  /specie:
+    get:
+      summary: Récupère toutes les espèces
+      responses:
+        200:
+          description: Succès. Renvoie la liste des espèces.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Specie"
+        500:
+          description: Erreur interne du serveur. Échec de la récupération des espèces.
+
+    post:
+      summary: Crée une nouvelle espèce
+      parameters:
+        - name: specieData
+          in: body
+          required: true
+          description: Données de l'espèce à créer
+          schema:
+            $ref: "#/definitions/SpecieInput"
+      responses:
+        201:
+          description: Succès. Renvoie les informations de l'espèce créée.
+          schema:
+            $ref: "#/definitions/Specie"
+        500:
+          description: Erreur interne du serveur. Échec de la création de l'espèce.
+
+  /specie/{id}:
+    get:
+      summary: Récupère les informations d'une espèce par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de l'espèce à récupérer
+          type: string
+      responses:
+        200:
+          description: Succès. Renvoie les informations de l'espèce demandée.
+          schema:
+            $ref: "#/definitions/Specie"
+        404:
+          description: Espèce non trouvée.
+        500:
+          description: Erreur interne du serveur. Échec de la récupération de l'espèce.
+
+    put:
+      summary: Met à jour les informations d'une espèce par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de l'espèce à mettre à jour
+          type: string
+        - name: specieData
+          in: body
+          required: true
+          description: Nouvelles données de l'espèce
+          schema:
+            $ref: "#/definitions/SpecieInput"
+      responses:
+        200:
+          description: Succès. Renvoie les informations de l'espèce mise à jour.
+          schema:
+            $ref: "#/definitions/Specie"
+        404:
+          description: Espèce non trouvée.
+        500:
+          description: Erreur interne du serveur. Échec de la mise à jour de l'espèce.
+
+    delete:
+      summary: Supprime une espèce par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de l'espèce à supprimer
+          type: string
+      responses:
+        204:
+          description: Succès. Aucune donnée renvoyée.
+        404:
+          description: Espèce non trouvée.
+        500:
+          description: Erreur interne du serveur. Échec de la suppression de l'espèce.
+
+definitions:
+  Specie:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/SpecieFields"
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true
+
+  SpecieFields:
+    type: object
+    properties:
+      edited:
+        type: string
+        required: true
+      classification:
+        type: string
+        required: true
+      name:
+        type: string
+        required: true
+      designation:
+        type: string
+        required: true
+      created:
+        type: string
+        required: true
+      eye_colors:
+        type: string
+        required: true
+      people:
+        type: array
+        items:
+          type: number
+        required: true
+      skin_colors:
+        type: string
+        required: true
+      language:
+        type: string
+        required: true
+      hair_colors:
+        type: string
+        required: true
+      homeworld:
+        type: number
+        required: true
+      average_lifespan:
+        type: string
+        required: true
+      average_height:
+        type: string
+        required: true
+
+  SpecieInput:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/SpecieFields"
+      model:
+        type: string
+        required: true
+      pk:
+        type: number
+        required: true

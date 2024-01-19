@@ -1,0 +1,160 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: API Star Wars Planet
+  description: API pour gérer les planètes
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+paths:
+  /planet:
+    get:
+      summary: Récupère toutes les planètes
+      responses:
+        200:
+          description: Succès. Renvoie la liste des planètes.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Planet"
+        500:
+          description: Erreur interne du serveur. Échec de la récupération des planètes.
+
+    post:
+      summary: Crée une nouvelle planète
+      parameters:
+        - name: planetData
+          in: body
+          required: true
+          description: Données de la planète à créer
+          schema:
+            $ref: "#/definitions/PlanetInput"
+      responses:
+        201:
+          description: Succès. Renvoie les informations de la planète créée.
+          schema:
+            $ref: "#/definitions/Planet"
+        500:
+          description: Erreur interne du serveur. Échec de la création de la planète.
+
+  /planet/{id}:
+    get:
+      summary: Récupère les informations d'une planète par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la planète à récupérer
+          type: string
+      responses:
+        200:
+          description: Succès. Renvoie les informations de la planète demandée.
+          schema:
+            $ref: "#/definitions/Planet"
+        404:
+          description: Planète non trouvée.
+        500:
+          description: Erreur interne du serveur. Échec de la récupération de la planète.
+
+    put:
+      summary: Met à jour les informations d'une planète par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la planète à mettre à jour
+          type: string
+        - name: planetData
+          in: body
+          required: true
+          description: Nouvelles données de la planète
+          schema:
+            $ref: "#/definitions/PlanetInput"
+      responses:
+        200:
+          description: Succès. Renvoie les informations de la planète mise à jour.
+          schema:
+            $ref: "#/definitions/Planet"
+        404:
+          description: Planète non trouvée.
+        500:
+          description: Erreur interne du serveur. Échec de la mise à jour de la planète.
+
+    delete:
+      summary: Supprime une planète par son ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la planète à supprimer
+          type: string
+      responses:
+        204:
+          description: Succès. Aucune donnée renvoyée.
+        404:
+          description: Planète non trouvée.
+        500:
+          description: Erreur interne du serveur. Échec de la suppression de la planète.
+
+definitions:
+  Planet:
+    type: object
+    properties:
+      _id:
+        type: string
+      fields:
+        $ref: "#/definitions/PlanetFields"
+      model:
+        type: string
+      pk:
+        type: number
+
+  PlanetFields:
+    type: object
+    properties:
+      edited:
+        type: string
+        require: true
+      climate:
+        type: string
+        require: true
+      surface_water:
+        type: string
+        require: true
+      name:
+        type: string
+        require: true
+      diameter:
+        type: string
+        require: true
+      rotation_period:
+        type: string
+        require: true
+      created:
+        type: string
+        require: true
+      terrain:
+        type: string
+        require: true
+      gravity:
+        type: string
+        require: true
+      orbital_period:
+        type: string
+        require: true
+      population:
+        type: string
+        require: true
+
+  PlanetInput:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/PlanetFields"
+      model:
+        type: string
+        require: true
+      pk:
+        type: number
+        require: true

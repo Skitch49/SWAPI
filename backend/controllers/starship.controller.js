@@ -19,7 +19,7 @@ exports.getStarshipById = (req, res) => {
       if (!starship) {
         res.status(404).json({ error: 'Starship not found' });
       } else {
-        res.json(specie);
+        res.json(starship);
       }
     })
     .catch(error => {
@@ -43,7 +43,7 @@ exports.createStarship = (req, res) => {
 exports.updateStarship = (req, res) => {
   const starshipId = req.params.id;
   const starshipData = req.body;
-  Specie.findByIdAndUpdate(starshipId, starshipData, { new: true })
+  Starship.findByIdAndUpdate(starshipId, starshipData, { new: true })
     .then(starship => {
       if (!starship) {
         res.status(404).json({ error: 'Starship not found' });
@@ -68,6 +68,6 @@ exports.deleteStarship = (req, res) => {
       }
     })
     .catch(error => {
-      res.status(500).json({ error: 'Failed to delete specie' });
+      res.status(500).json({ error: 'Failed to delete starship' });
     });
 };

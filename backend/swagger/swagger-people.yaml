@@ -1,134 +1,160 @@
-definitions:
- 
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: API Star Wars People
+  description: API pour gérer les personnes
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+paths:
   /people:
     get:
       summary: Récupère tous les peoples
       responses:
         200:
-          description: Succès - Renvoie la liste des peoples
+          description: Succès. Renvoie la liste des personnes.
           schema:
             type: array
             items:
-              $ref: '#/definitions/People'
+              $ref: "#/definitions/People"
         500:
-          description: Erreur serveur - Échec de la récupération des peoples
+          description: Erreur interne du serveur. Échec de la récupération des personnes.
+
     post:
-      summary: Crée un nouveau people
+      summary: Crée une nouvelle personne
       parameters:
         - name: peopleData
           in: body
-          description: Données du people à créer
           required: true
+          description: Données de la personne à créer
           schema:
-            $ref: '#/definitions/People'
+            $ref: "#/definitions/PeopleInput"
       responses:
         201:
-          description: Succès - Renvoie les informations du people créé
+          description: Succès. Renvoie les informations de la personne créée.
           schema:
-            $ref: '#/definitions/People'
+            $ref: "#/definitions/People"
         500:
-          description: Erreur serveur - Échec de la création du people
+          description: Erreur interne du serveur. Échec de la création de la personne.
 
   /people/{id}:
     get:
-      summary: Récupère les informations d'un people par son ID
+      summary: Récupère les informations d'une personne par son ID
       parameters:
         - name: id
           in: path
-          description: ID du people à récupérer
           required: true
+          description: ID de la personne à récupérer
           type: string
       responses:
         200:
-          description: Succès - Renvoie les informations du people
+          description: Succès. Renvoie les informations de la personne demandée.
           schema:
-            $ref: '#/definitions/People'
+            $ref: "#/definitions/People"
         404:
-          description: Non trouvé - Le people avec l'ID spécifié n'existe pas
+          description: Personne non trouvée.
         500:
-          description: Erreur serveur - Échec de la récupération du people
+          description: Erreur interne du serveur. Échec de la récupération de la personne.
+
     put:
-      summary: Met à jour les informations d'un people par son ID
+      summary: Met à jour les informations d'une personne par son ID
       parameters:
         - name: id
           in: path
-          description: ID du people à mettre à jour
           required: true
+          description: ID de la personne à mettre à jour
           type: string
         - name: peopleData
           in: body
-          description: Nouvelles données du people
           required: true
+          description: Nouvelles données de la personne
           schema:
-            $ref: '#/definitions/People'
+            $ref: "#/definitions/PeopleInput"
       responses:
         200:
-          description: Succès - Renvoie les informations du people mis à jour
+          description: Succès. Renvoie les informations de la personne mise à jour.
           schema:
-            $ref: '#/definitions/People'
+            $ref: "#/definitions/People"
         404:
-          description: Non trouvé - Le people avec l'ID spécifié n'existe pas
+          description: Personne non trouvée.
         500:
-          description: Erreur serveur - Échec de la mise à jour du people
+          description: Erreur interne du serveur. Échec de la mise à jour de la personne.
+
     delete:
-      summary: Supprime un people par son ID
+      summary: Supprime une personne par son ID
       parameters:
         - name: id
           in: path
-          description: ID du people à supprimer
           required: true
+          description: ID de la personne à supprimer
           type: string
       responses:
         204:
-          description: Succès - People supprimé avec succès
+          description: Succès. Aucune donnée renvoyée.
         404:
-          description: Non trouvé - Le people avec l'ID spécifié n'existe pas
+          description: Personne non trouvée.
         500:
-          description: Erreur serveur - Échec de la suppression du people
+          description: Erreur interne du serveur. Échec de la suppression de la personne.
 
 definitions:
   People:
     type: object
     properties:
+      _id:
+        type: string
       fields:
-        type: object
-        properties:
-          edited:
-            type: string
-            required: true
-          name:
-            type: string
-            required: true
-          created:
-            type: string
-            required: true
-          gender:
-            type: string
-            required: true
-          skin_color:
-            type: string
-            required: true
-          hair_color:
-            type: string
-            required: true
-          height:
-            type: string
-            required: true
-          eye_color:
-            type: string
-            required: true
-          mass:
-            type: string
-            required: true
-          homeworld:
-            type: number
-            required: true
-          birth_year:
-            type: string
-            required: true
+        $ref: "#/definitions/PeopleFields"
       model:
         type: string
-        required: true
       pk:
         type: number
-        required: true
+
+  PeopleFields:
+    type: object
+    properties:
+      edited:
+        type: string
+        require: true
+      name:
+        type: string
+        require: true
+      created:
+        type: string
+        require: true
+      gender:
+        type: string
+        require: true
+      skin_color:
+        type: string
+        require: true
+      hair_color:
+        type: string
+        require: true
+      height:
+        type: string
+        require: true
+      eye_color:
+        type: string
+        require: true
+      mass:
+        type: string
+        require: true
+      homeworld:
+        type: number
+        require: true
+      birth_year:
+        type: string
+        require: true
+
+  PeopleInput:
+    type: object
+    properties:
+      fields:
+        $ref: "#/definitions/PeopleFields"
+      model:
+        type: string
+        require: true
+      pk:
+        type: number
+        require: true
