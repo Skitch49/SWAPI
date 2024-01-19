@@ -39,7 +39,7 @@ Clonez ce référentiel dans votre environnement local.
 
 Exécutez npm install pour installer les dépendances.
 
-Configurez les paramètres de connexion à la base de données MongoDB dans le fichier de configuration approprié.
+Configurez les paramètres de connexion à la base de données MongoDB en mettant la variable globale de connexion MONGO_URI dans votre fichier .env
 
 Exécutez npm start pour démarrer le serveur de l'API.
 
